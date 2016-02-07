@@ -1,70 +1,123 @@
 module Jekyll
   class Scholar
 
-    class BibliographyHDPByTypeTag < Liquid::Tag
+    class BibliographyTagByType < Liquid::Tag
       include Scholar::Utilities
-      include ScholarExtras::Utilities
-  
-      attr_reader :type, :header, :arr_args
 
       def initialize(tag_name, arguments, tokens)
         super
 
         @config = Scholar.defaults.dup
-        # Check for number of arguments.
-#@arr_args = arguments.strip.split(/\s+/)
-        @type, @header= arguments.strip.split(/\s*,\s*/, 2)
 
-#@type= arr_args[0]
-#@header = arr_args[1]
+        optparse(arguments)
+      end
+
+      def initialize_type_labels()
+        @type_labels = Hash[{
+                              "@article" => "Journal Articles",
+                              "@inproceedings" => "Conference and Workshop Papers",
+                              "@incollection" => "Book Chapters",
+                              "@techreport" => "Technical Reports",
+                              "@book" => "Books"
+                            }]
+      end
+
+
+      def initialize_prefix_defaults() 
+        @prefix_defaults = Hash[{
+                                  :article => "J",
+                                  :inproceedings => "C",
+                                  :incollection=> "BC",
+                                  :techreport => "TR",
+                                  :book => "B"
+                                }]
+      end
+
+      def set_type_counts(tc)
+        @type_counts = tc
+      end
+
+      def render_index(item, ref)
+        si = '[' + @prefix_defaults[item.type].to_s + @type_counts.to_s + ']'
+        @type_counts = @type_counts - 1
+        
+        idx_html = content_tag "div class=\"csl-index\"", si
+        return idx_html + ref
+      end
+
+      def render_ref_img(item)
+        css_points = Hash[{
+                         :article => "csl-point-journal-icon",
+                         :inproceedings => "csl-point-conference-icon",
+                         :incollection=> "csl-point-bookchapter-icon",
+                         :techreport => "csl-point-techreport-icon",
+                         :book => "csl-point-book-icon"
+                       }]
+
+        s = css_points[item.type]
+        return s
+      end
+
+      def render_header(y)
+        ys = content_tag "h2 class=\"csl-year-header\"", y
+        ys = content_tag "div class=\"csl-year-icon\"", ys
       end
 
       def render(context)
         set_context_to context
 
-         year_section = ''
-         opts = ['@' + @type,'@*[public!=no]']
+        # Only select items that are public.
+        items = entries.select { |e| e.public == 'yes' }
 
-        references = get_entries(opts).map do |entry|
-          reference = ''
-          ref = ''
+        initialize_prefix_defaults()
+        initialize_type_labels()
+        set_type_counts(items.size())
 
-          ref = CiteProc.process entry.to_citeproc, :style => config['style'],
-            :locale => config['locale'], :format => 'html'
-          content_tag :span, ref, :id => entry.key
-
-          reference << ref
-          if generate_details?
-           reference << "<br />"
-           reference << link_to(details_link_for(entry), config['details_link'])
-           reference << "."
+        if cited_only?
+          items = if skip_sort?
+            cited_references.uniq.map do |key|
+              items.detect { |e| e.key == key }
+            end
+          else
+            entries.select do |e|
+              cited_references.include? e.key
+            end
           end
-
-          if entry.field?(:pdflink1) or entry.field?(:slides)
-            reference << "<b> Downloads: </b>" 
-          end 
-
-          if entry.field?(:pdflink1)
-            reference << "<a href=\"" + entry[:pdflink1].to_s + "\">PDF</a>"
-
-          end
-          
-          if entry.field?(:slides)
-            reference << "<a href=\"" + entry[:slides].to_s + "\">Slides</a>"
-
-          end
-
-          content_tag :br, reference
         end
-         
-         section_header = "<h1> #{@header} </h1>"
- 
-        references.insert(0,section_header)
-        references.join("\n")
+
+        items = items[offset..max] if limit_entries?
+
+        bibliography = render_header(@type_labels[query])
+        bibliography << items.each_with_index.map { |entry, index|
+          reference = render_index(entry, bibliography_tag(entry, nil))
+
+          if generate_details?
+            reference << link_to(details_link_for(entry),
+              config['details_link'], :class => config['details_link_class'])
+          end
+
+          if entry.field?(:award)
+            # TODO: Awkward -- Find position to insert it. Before the last </div>
+            ts = content_tag "div class=\"csl-award\"", entry.award.to_s
+            refPos = reference.rindex('</div>')
+            if refPos.nil?
+              puts "NILL"
+            else 
+              reference.insert(reference.rindex('</div>'), ts.to_s)
+            end 
+          end
+
+          content_tag config['bibliography_item_tag'], reference
+          content_tag "li class=\"" + render_ref_img(entry) + "\"", reference
+        }.join("\n")
+
+
+        content_tag config['bibliography_list_tag'], bibliography, :class => config['bibliography_class']
+        
       end
     end
-    
+
   end
 end
 
-Liquid::Template.register_tag('bibliography_bytype', Jekyll::Scholar::BibliographyHDPByTypeTag)
+Liquid::Template.register_tag('bibliography_bytype', Jekyll::Scholar::BibliographyTagByType)
