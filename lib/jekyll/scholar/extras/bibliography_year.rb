@@ -118,14 +118,10 @@ module Jekyll
                 if entry.field?(:award)
                   # TODO: Awkward -- Find position to insert it. Before the last </div>
                   ts = content_tag "div class=\"csl-award\"", entry.award.to_s
-                  puts ts
-                  puts ts.to_s
                   refPos = reference.rindex('</div>')
                   if refPos.nil? 
                     puts "NILL"
                   else 
-                    puts "INSERT\n"
-                    puts ts
                     reference.insert( reference.rindex('</div>'), ts.to_s )
                   end
                 end
