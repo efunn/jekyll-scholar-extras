@@ -39,7 +39,7 @@ License
 
 ```jekyll-scholar-extras``` is distributed under the same license as Jekyll.
 
-Copyright (c) 2012 [Hiren D. Patel](http://ece.uwaterloo.ca/~hdpatel/)
+Copyright (c) 2012-2016 [Hiren Patel](https://caesr.uwaterloo.ca/)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the 'Software'), to deal
