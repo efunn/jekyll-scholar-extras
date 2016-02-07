@@ -86,11 +86,10 @@ module Jekyll
         end
 
         items = items[offset..max] if limit_entries?
-
-        bibliography = render_header(@type_labels[query])
+        bibliography = ""
+        bibliography << render_header(@type_labels[query])
         bibliography << items.each_with_index.map { |entry, index|
           reference = render_index(entry, bibliography_tag(entry, nil))
-
           if generate_details?
             reference << link_to(details_link_for(entry),
               config['details_link'], :class => config['details_link_class'])
@@ -111,8 +110,7 @@ module Jekyll
           content_tag "li class=\"" + render_ref_img(entry) + "\"", reference
         }.join("\n")
 
-
-        content_tag config['bibliography_list_tag'], bibliography, :class => config['bibliography_class']
+        return content_tag config['bibliography_list_tag'], bibliography, :class => config['bibliography_class']
         
       end
     end
