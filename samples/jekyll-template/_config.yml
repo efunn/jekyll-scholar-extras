@@ -1,32 +1,38 @@
 source:      .
 destination: ./_site
-plugins:     ./_plugins
+plugin_dir:  ./_plugins
 
-auto:     false
-server:   false
 lsi:      false
 safe:     false
-pygments: true
-markdown: maruku
+highlighter: true
 
-baseurl: ./ #http://ece.uwaterloo.ca/~hdpatel/uwhtml
-root_home: ~hdpatel/uwhtml
+markdown: redcarpet
+redcarpet:
+  extensions: ["no_intra_emphasis", "fenced_code_blocks", "autolink", "strikethrough", "superscript", "with_toc_data", "smart"]
+
+baseurl: ./ 
+root_home: 
 
 permalink: /:year/:month/:day/:title
 exclude:   ["Rakefile", "no-build"]
-title:     Hiren D. Patel
-url:       http://ece.uwaterloo.ca/~hdpatel/uwhtml
+title:     
+url:       
 
 # jekyll-scholar configurations
 scholar:
-  style: _publications/custom-hdp.csl
+  style: publications/customized-jse.csl
   locale: en
-
   sort_by: year
   order: descending
-
-  source: ./_publications
+  source: ./publications
   bibliography: test.bib
   details_dir: ./publications/details
-  details_layout: details.html
-  #query: "@*[public!=no]"
+  query: "@*[public!=no]"
+
+  # Scholar has changed the way it renders bib tags
+  # Need to look at more at the defaults.
+  bibliography_list_tag: "ul"
+
+# jekyll-scholar-extras configurations
+scholar-extras:
+# TODO Options need to be reworked through
