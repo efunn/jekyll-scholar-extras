@@ -86,10 +86,11 @@ module Jekyll
         end
 
         items = items[offset..max] if limit_entries?
-        bibliography = ""
-        bibliography << render_header(@type_labels[query])
+
+        bibliography = render_header(@type_labels[query])
         bibliography << items.each_with_index.map { |entry, index|
           reference = render_index(entry, bibliography_tag(entry, nil))
+
           if generate_details?
             reference << link_to(details_link_for(entry),
               config['details_link'], :class => config['details_link_class'])
@@ -105,12 +106,21 @@ module Jekyll
               reference.insert(reference.rindex('</div>'), ts.to_s)
             end 
           end
+          # Render links if repository specified
+          if repository?
+            if not repository_link_for(entry).nil?
+              puts "link is not null"
+              puts repository_link_for(entry)
+              reference << "<a class=\"pure-button\" href=\"" + repository_link_for(entry) + "\">PDF</a>"
+            end
+          end
 
           content_tag config['bibliography_item_tag'], reference
           content_tag "li class=\"" + render_ref_img(entry) + "\"", reference
         }.join("\n")
 
-        return content_tag config['bibliography_list_tag'], bibliography, :class => config['bibliography_class']
+
+        content_tag config['bibliography_list_tag'], bibliography, :class => config['bibliography_class']
         
       end
     end
