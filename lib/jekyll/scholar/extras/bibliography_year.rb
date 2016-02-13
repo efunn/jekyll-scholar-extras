@@ -118,11 +118,23 @@ module Jekyll
                 if entry.field?(:award)
                   # TODO: Awkward -- Find position to insert it. Before the last </div>
                   ts = content_tag "div class=\"csl-award\"", entry.award.to_s
+#                  puts ts
+#                  puts ts.to_s
                   refPos = reference.rindex('</div>')
                   if refPos.nil? 
-                    puts "NILL"
+#                    puts "NILL"
                   else 
+#                    puts "INSERT\n"
+#                    puts ts
                     reference.insert( reference.rindex('</div>'), ts.to_s )
+                  end
+                end
+                # Render links if repository specified
+                if repository?
+                  if not repository_link_for(entry).nil?
+                    puts "link is not null"
+                    puts repository_link_for(entry)
+                    reference << "<a class=\"pure-button\" href=\"" + repository_link_for(entry) + "\">PDF</a>"
                   end
                 end
                 # Content tag is dependent on type of article.
