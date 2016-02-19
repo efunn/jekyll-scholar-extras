@@ -1,6 +1,4 @@
 require 'jekyll/scholar'
-#require 'jekyll/scholar/extras/extra_utils'
+require 'jekyll/scholar/extras/extras_utilities'
 require 'jekyll/scholar/extras/bibliography_year'
 require 'jekyll/scholar/extras/bibliography_bytype'
-#require 'jekyll/scholar/extras/details_hdp'
-#require 'jekyll/scholar/tags/cite_details_dep'
