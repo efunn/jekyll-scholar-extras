@@ -3,6 +3,7 @@ module Jekyll
 
     class BibliographyTagByType < Liquid::Tag
       include Scholar::Utilities
+      include ScholarExtras
 
       def initialize(tag_name, arguments, tokens)
         super
@@ -23,16 +24,6 @@ module Jekyll
       end
 
 
-      def initialize_prefix_defaults() 
-        @prefix_defaults = Hash[{
-                                  :article => "J",
-                                  :inproceedings => "C",
-                                  :incollection=> "BC",
-                                  :techreport => "TR",
-                                  :book => "B"
-                                }]
-      end
-
       def set_type_counts(tc)
         @type_counts = tc
       end
@@ -43,19 +34,6 @@ module Jekyll
         
         idx_html = content_tag "div class=\"csl-index\"", si
         return idx_html + ref
-      end
-
-      def render_ref_img(item)
-        css_points = Hash[{
-                         :article => "csl-point-journal-icon",
-                         :inproceedings => "csl-point-conference-icon",
-                         :incollection=> "csl-point-bookchapter-icon",
-                         :techreport => "csl-point-techreport-icon",
-                         :book => "csl-point-book-icon"
-                       }]
-
-        s = css_points[item.type]
-        return s
       end
 
       def render_header(y)
@@ -106,12 +84,17 @@ module Jekyll
               reference.insert(reference.rindex('</div>'), ts.to_s)
             end 
           end
+
+          # Check if there are ACM PDF links
+          # Really awkward way of insertion
+          reference.insert(reference.rindex('</div>'),render_acmpdf_link(entry))
+
           # Render links if repository specified
-          if repository?
+          if repository? and not entry.field?(:acmpdflink)
             if not repository_link_for(entry).nil?
               puts "link is not null"
               puts repository_link_for(entry)
-              reference << "<a class=\"pure-button\" href=\"" + repository_link_for(entry) + "\">PDF</a>"
+              reference << "<a class=\"pure-button-green\" href=\"" + repository_link_for(entry) + "\">PDF</a>"
             end
           end
 
