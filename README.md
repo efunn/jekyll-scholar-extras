@@ -8,11 +8,7 @@ These customizations are extensions to [Jekyll](http://jekyllrb.com/) and [Jekyl
 Installation
 ------------
 
-```bash
-$ [sudo] gem install jekyll-scholar-extras
-```
-
-
+You must compile ```jekyll-scholar-extras``` from source.  If someone is interested in publishing to a gem server, then I would be happy to help enable this.
 Usage
 -----
 To enable ```jekyll-scholar-extras```, add a file in your plugin directory (e.g., to `_plugins/jekyll-scholar-extras.rb`) with the following:
