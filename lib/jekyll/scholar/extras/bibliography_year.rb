@@ -3,6 +3,7 @@ module Jekyll
 
     class BibliographyTagYear < Liquid::Tag
       include Scholar::Utilities
+      include ScholarExtras
 
       def initialize(tag_name, arguments, tokens)
         super
@@ -40,28 +41,6 @@ module Jekyll
                        }]
       end
 
-      def initialize_prefix_defaults() 
-        @prefix_defaults = Hash[{
-                                  :article => "J",
-                                  :inproceedings => "C",
-                                  :incollection=> "BC",
-                                  :techreport => "TR",
-                                  :book => "B"
-                                }]
-      end
-
-      def render_ref_img(item)
-        css_points = Hash[{
-                         :article => "csl-point-journal-icon",
-                         :inproceedings => "csl-point-conference-icon",
-                         :incollection=> "csl-point-bookchapter-icon",
-                         :techreport => "csl-point-techreport-icon",
-                         :book => "csl-point-book-icon"
-                       }]
-
-        s = css_points[item.type]
-        return s
-      end
 
       def get_entries_by_type(year, type)
         b = bibliography.query('@*') { |item|
@@ -75,13 +54,6 @@ module Jekyll
 #        content_tag "h2", y
       end
 
-      def render_index(item, ref)
-        si = '[' + @prefix_defaults[item.type].to_s + @type_counts[item.type].to_s + ']'
-        @type_counts[item.type] = @type_counts[item.type].to_i - 1
-        
-        idx_html = content_tag "div class=\"csl-index\"", si
-        return idx_html + ref
-      end
 
       def entries_year(year)
         b = bibliography.query('@*') { 
@@ -118,23 +90,29 @@ module Jekyll
                 if entry.field?(:award)
                   # TODO: Awkward -- Find position to insert it. Before the last </div>
                   ts = content_tag "div class=\"csl-award\"", entry.award.to_s
-#                  puts ts
-#                  puts ts.to_s
                   refPos = reference.rindex('</div>')
                   if refPos.nil? 
-#                    puts "NILL"
                   else 
-#                    puts "INSERT\n"
-#                    puts ts
                     reference.insert( reference.rindex('</div>'), ts.to_s )
                   end
                 end
-                # Render links if repository specified
-                if repository?
+
+                # There are multiple ways to have PDFs associated.
+                # Priority is suggested as below.
+                # 1. ACM links to PDF through authorizer
+                # 2. Repository links
+                # 3. Just web links to somewhere else.
+                #
+
+                # Check if there are ACM PDF links
+                reference.insert(reference.rindex('</div>'),render_acmpdf_link(entry))
+
+                # Render links if repository specified but not acmpdflink
+                if repository? and not entry.field?(:acmpdflink) 
                   if not repository_link_for(entry).nil?
                     puts "link is not null"
                     puts repository_link_for(entry)
-                    reference << "<a class=\"pure-button\" href=\"" + repository_link_for(entry) + "\">PDF</a>"
+                    reference << "<a href=\"" + repository_link_for(entry) + "\">PDF</a>"
                   end
                 end
                 # Content tag is dependent on type of article.
