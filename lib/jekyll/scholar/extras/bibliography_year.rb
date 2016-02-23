@@ -112,7 +112,8 @@ module Jekyll
                   if not repository_link_for(entry).nil?
                     puts "link is not null"
                     puts repository_link_for(entry)
-                    reference << "<a href=\"" + repository_link_for(entry) + "\">PDF</a>"
+                    pdflink = "<div class=\"pure-button csl-pdf\"><a href=\"" + repository_link_for(entry) + "\">PDF</a></div>"
+                    reference.insert(reference.rindex('</div>'), pdflink.to_s )
                   end
                 end
                 # Content tag is dependent on type of article.
