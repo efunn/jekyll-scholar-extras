@@ -58,7 +58,7 @@ module Jekyll
         }
       end
 
-      def initialize_unique_years()
+      def initialize_unique_years
         # Get an array of years and then uniquify them.
         items = entries
         arr = Array.new
@@ -85,7 +85,7 @@ module Jekyll
               if entry.type == o then 
                 reference = render_index(entry, bibliography_tag(entry, nil))
 
-
+                #split_reference reference
                 
                 if entry.field?(:award)
                   # TODO: Awkward -- Find position to insert it. Before the last </div>
@@ -97,7 +97,7 @@ module Jekyll
                   end
                 end
 
-                split_reference("ha")
+
                 
                 # There are multiple ways to have PDFs associated.
                 # Priority is suggested as below.

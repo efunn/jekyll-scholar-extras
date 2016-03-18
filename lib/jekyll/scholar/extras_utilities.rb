@@ -39,12 +39,11 @@ module Jekyll
       end
       return pdflink
     end
+
+    def split_reference(reference)
+      puts "## " + reference
+    end
+    
   end 
 
-  def split_reference(reference)
-    puts "===========================\n"
-    puts reference
-    puts "===========================\n"
-  end
-  
 end 
