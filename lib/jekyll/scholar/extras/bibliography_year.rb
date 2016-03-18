@@ -84,6 +84,9 @@ module Jekyll
             bibliography << items.each_with_index.map { |entry, index|
               if entry.type == o then 
                 reference = render_index(entry, bibliography_tag(entry, nil))
+
+
+                
                 if entry.field?(:award)
                   # TODO: Awkward -- Find position to insert it. Before the last </div>
                   ts = content_tag "div class=\"csl-award\"", entry.award.to_s
@@ -94,6 +97,8 @@ module Jekyll
                   end
                 end
 
+                split_reference("ha")
+                
                 # There are multiple ways to have PDFs associated.
                 # Priority is suggested as below.
                 # 1. ACM links to PDF through authorizer

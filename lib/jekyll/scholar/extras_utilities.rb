@@ -41,9 +41,10 @@ module Jekyll
     end
   end 
 
-  def split_reference(ref)
-    puts "===========================\n";
-    puts ref
-    puts "===========================\n";
+  def split_reference(reference)
+    puts "===========================\n"
+    puts reference
+    puts "===========================\n"
   end
+  
 end 
