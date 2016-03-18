@@ -15,49 +15,46 @@ module Jekyll
       end
 
       def initialize_type_counts()
-        @type_counts = Hash[{
-                         :article => 0,
-                         :inproceedings => 0,
-                         :incollection=> 0,
-                         :techreport => 0,
-                         :book => 0
-                       }]
+        @type_counts = Hash[{ :article => 0,
+                              :inproceedings => 0,
+                              :incollection=> 0,
+                              :techreport => 0,
+                              :book => 0
+                            }]
 
         @type_counts.keys.each { |t|
           bib = bibliography.query('@*') { |b|
-            (b.public == 'yes' and b.type == t)
+            (b.public == 'yes' && b.type == t)
           }
           @type_counts[t] = bib.size
         }
       end
 
       def initialize_type_order()
-        @type_order = Hash[{
-                         :article => 0,
-                         :book => 0,
-                         :incollection=> 0,
-                         :inproceedings => 0,
-                         :techreport => 0
-                       }]
+        @type_order = Hash[{ :article => 0,
+                             :book => 0,
+                             :incollection=> 0,
+                             :inproceedings => 0,
+                             :techreport => 0
+                           }]
       end
 
 
       def get_entries_by_type(year, type)
         b = bibliography.query('@*') { |item|
-          (item.year == year and item.type == type)
+          (item.year == year && item.type == type)
         }
       end
 
       def render_year(y)
         ys = content_tag "h2 class=\"csl-year-header\"", y
         ys = content_tag "div class=\"csl-year-icon\"", ys
-#        content_tag "h2", y
       end
 
 
       def entries_year(year)
         b = bibliography.query('@*') { 
-                |a| (a.year == year and a.public == 'yes')
+          |a| (a.year == year && a.public == 'yes')
         }
       end
 
@@ -90,8 +87,8 @@ module Jekyll
                 if entry.field?(:award)
                   # TODO: Awkward -- Find position to insert it. Before the last </div>
                   ts = content_tag "div class=\"csl-award\"", entry.award.to_s
-                  refPos = reference.rindex('</div>')
-                  if refPos.nil? 
+                  reference_position = reference.rindex('</div>')
+                  if reference_position.nil? 
                   else 
                     reference.insert( reference.rindex('</div>'), ts.to_s )
                   end
@@ -108,7 +105,7 @@ module Jekyll
                 reference.insert(reference.rindex('</div>'),render_acmpdf_link(entry))
 
                 # Render links if repository specified but not acmpdflink
-                if repository? and not entry.field?(:acmpdflink) 
+                if repository? && !entry.field?(:acmpdflink) 
                   if not repository_link_for(entry).nil?
                     puts "link is not null"
                     puts repository_link_for(entry)
