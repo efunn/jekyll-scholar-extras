@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.name        = 'jekyll-scholar-extras'
   s.version     = Jekyll::ScholarExtras::VERSION.dup
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ['Hiren Patel']
-  s.email       = 'hiren.patel at uwaterloo dot ca'
+  s.authors     = ['rmrf']
+  s.email       = 'nospam at uwaterloo dot ca'
   s.homepage    = ''
   s.licenses    = ['MIT']
   s.summary     = 'Extras for Jekyll extensions for the academic blogger jekyll-scholar.'
