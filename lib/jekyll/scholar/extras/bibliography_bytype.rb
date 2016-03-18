@@ -54,10 +54,12 @@ module Jekyll
         if cited_only?
           items =
             if skip_sort?
-              cited_references.uniq.map
-              do |key| items.detect { |e| e.key == key } end
-            else entries.select
-              do |e| cited_references.include? e.key end
+              cited_references.uniq.map do |key|
+              items.detect { |e| e.key == key }
+            end
+            else entries.select  do |e|
+              cited_references.include? e.key
+            end
             end
         end
 
