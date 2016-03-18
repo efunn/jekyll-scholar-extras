@@ -14,13 +14,13 @@ module Jekyll
       end
 
       def initialize_type_labels()
-        @type_labels = Hash[{
-                              "@article" => "Journal Articles",
-                              "@inproceedings" => "Conference and Workshop Papers",
-                              "@incollection" => "Book Chapters",
-                              "@techreport" => "Technical Reports",
-                              "@book" => "Books"
-                            }]
+        @type_labels =
+          Hash[{ "@article" => "Journal Articles",
+                 "@inproceedings" => "Conference and Workshop Papers",
+                 "@incollection" => "Book Chapters",
+                 "@techreport" => "Technical Reports",
+                 "@book" => "Books"
+               }]
       end
 
 
@@ -52,15 +52,13 @@ module Jekyll
         set_type_counts(items.size())
 
         if cited_only?
-          items = if skip_sort?
-            cited_references.uniq.map do |key|
-              items.detect { |e| e.key == key }
+          items =
+            if skip_sort?
+              cited_references.uniq.map
+              do |key| items.detect { |e| e.key == key } end
+            else entries.select
+              do |e| cited_references.include? e.key end
             end
-          else
-            entries.select do |e|
-              cited_references.include? e.key
-            end
-          end
         end
 
         items = items[offset..max] if limit_entries?
@@ -70,15 +68,15 @@ module Jekyll
           reference = render_index(entry, bibliography_tag(entry, nil))
 
           if generate_details?
-            reference << link_to(details_link_for(entry),
-              config['details_link'], :class => config['details_link_class'])
+            reference << link_to(details_link_for(entry), config['details_link'],
+                                 :class => config['details_link_class'])
           end
 
           if entry.field?(:award)
             # TODO: Awkward -- Find position to insert it. Before the last </div>
             ts = content_tag "div class=\"csl-award\"", entry.award.to_s
-            refPos = reference.rindex('</div>')
-            if refPos.nil?
+            reference_position = reference.rindex('</div>')
+            if reference_position.nil?
               puts "NILL"
             else 
               reference.insert(reference.rindex('</div>'), ts.to_s)
@@ -90,7 +88,7 @@ module Jekyll
           reference.insert(reference.rindex('</div>'),render_acmpdf_link(entry))
 
           # Render links if repository specified
-          if repository? and not entry.field?(:acmpdflink)
+          if repository? && !entry.field?(:acmpdflink)
             if not repository_link_for(entry).nil?
               puts "link is not null"
               puts repository_link_for(entry)
