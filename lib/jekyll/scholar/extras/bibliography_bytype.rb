@@ -92,11 +92,20 @@ module Jekyll
           # Render links if repository specified
           if repository? && !entry.field?(:acmpdflink)
             if not repository_link_for(entry).nil?
-#              puts "link is not null"
-#              puts repository_link_for(entry)
               pdflink = "<div class=\"pure-button csl-pdf\"><a href=\"" + repository_link_for(entry) + "\">PDF</a></div>"
               reference.insert(reference.rindex('</div>'), pdflink.to_s )
             end
+
+            # Check for SLIDES PDF.
+            if not repository_link_for(entry).nil?
+              link = repository_slides_link_for(entry)
+              if link.to_s.include?("_slides")
+                pdflink = "<div class=\"pure-button csl-slides\"><a href=\"" + repository_slides_link_for(entry) + "\">SLIDES</a></div>"
+                reference.insert(reference.rindex('</div>'), pdflink.to_s )                      
+              end
+            end
+
+            
           end
 
           content_tag config['bibliography_item_tag'], reference
