@@ -42,6 +42,21 @@ module Jekyll
 
     def split_reference(reference)
       puts "## " + reference
+      puts "\n"
+      if !reference.nil? 
+        xml = Nokogiri::XML(reference.to_s)
+        puts "=========="
+        puts xml.css("div.csl-author")
+        puts "=========="
+      end
+    end
+
+    def repository_slides_link_for(entry, base = base_url)
+      links = repository[entry.key + "_slides"]
+      url = links['pdf'] || links['pptx']
+      return unless url
+
+      File.join(base, url)
     end
     
   end 

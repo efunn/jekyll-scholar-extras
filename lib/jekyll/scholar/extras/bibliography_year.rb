@@ -85,7 +85,7 @@ module Jekyll
               if entry.type == o then 
                 reference = render_index(entry, bibliography_tag(entry, nil))
 
-                #split_reference reference
+#                split_reference reference
                 
                 if entry.field?(:award)
                   # TODO: Awkward -- Find position to insert it. Before the last </div>
@@ -97,8 +97,6 @@ module Jekyll
                   end
                 end
 
-
-                
                 # There are multiple ways to have PDFs associated.
                 # Priority is suggested as below.
                 # 1. ACM links to PDF through authorizer
@@ -112,12 +110,26 @@ module Jekyll
                 # Render links if repository specified but not acmpdflink
                 if repository? && !entry.field?(:acmpdflink) 
                   if not repository_link_for(entry).nil?
-                    puts "link is not null"
-                    puts repository_link_for(entry)
+#                    puts "link is not null"
+#                    puts repository_link_for(entry)
                     pdflink = "<div class=\"pure-button csl-pdf\"><a href=\"" + repository_link_for(entry) + "\">PDF</a></div>"
                     reference.insert(reference.rindex('</div>'), pdflink.to_s )
                   end
+
+                  # Check for SLIDES PDF.
+                  if not repository_link_for(entry).nil?
+                    puts "#IN SLIDES"
+                    link = repository_slides_link_for(entry)
+                    puts link.to_s
+                    if link.to_s.include?("_slides")
+                      puts "#FOUND"
+                      pdflink = "<div class=\"pure-button csl-pdf\"><a href=\"" + repository_slides_link_for(entry) + "\">SLIDES</a></div>"
+                      reference.insert(reference.rindex('</div>'), pdflink.to_s )                      
+                    end
+                  end
+                  
                 end
+
                 # Content tag is dependent on type of article.
                 content_tag "li class=\"" + render_ref_img(entry) + "\"", reference
               end
