@@ -16,15 +16,23 @@ To enable ```jekyll-scholar-extras```, add a file in your plugin directory (e.g.
       require 'jekyll/scholar/extras'
 
 
-Features
---------
+# Features
 These extras provide some additional features over the vanilla Jekyll-Scholar.  These are described below:
-* Disable generation of BibTeX entries marked  to not be public.
-* Create a PDF download link based on the BibTeX key associated with each entry.
+
+## Disable generation of BibTeX entries marked to not be public.
+One can include `public` field for any BibTeX entry.  If the `public` field is set to `{yes}` then the corresponding entry will be generated.  If the `public` field is set to `{no}` then it will not.
 
 
-Example
--------
+# Create a PDF and SLIDES download link based on the BibTeX key associated with each entry.
+
+[jekyll-scholar](https://github.com/inukshuk/jekyll-scholar) already supports repositories.  However, one may want to upload presentations associated with an article as well, and have them automatically generated.  To do this, simply include a presentation file whose name is the `key` suffixed with `_slides`.  For example, a BibTeX entry with key `abc_xyz` would have two files:
+* `abc_xyz.pdf`: The PDF paper download.
+* `abc_xyz_slides.pdf`: The PDF of the presentation.
+
+User-defined customizations of these are still in progress.
+
+# Example
+
 
 An example setup that uses the customized bibliography and details page generators and tags.
 * [Sample 1](https://caesr.uwaterloo.ca//publications/index.html)

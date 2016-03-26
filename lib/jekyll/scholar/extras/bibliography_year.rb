@@ -118,12 +118,10 @@ module Jekyll
 
                   # Check for SLIDES PDF.
                   if not repository_link_for(entry).nil?
-                    puts "#IN SLIDES"
                     link = repository_slides_link_for(entry)
-                    puts link.to_s
+#                    puts link.to_s
                     if link.to_s.include?("_slides")
-                      puts "#FOUND"
-                      pdflink = "<div class=\"pure-button csl-pdf\"><a href=\"" + repository_slides_link_for(entry) + "\">SLIDES</a></div>"
+                      pdflink = "<div class=\"pure-button csl-slides\"><a href=\"" + repository_slides_link_for(entry) + "\">SLIDES</a></div>"
                       reference.insert(reference.rindex('</div>'), pdflink.to_s )                      
                     end
                   end
