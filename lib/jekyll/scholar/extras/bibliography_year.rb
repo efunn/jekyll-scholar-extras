@@ -1,6 +1,6 @@
 module Jekyll
   class Scholar
-
+    
     class BibliographyTagYear < Liquid::Tag
       include Scholar::Utilities
       include ScholarExtras
@@ -9,7 +9,8 @@ module Jekyll
         super
 
         @config = Scholar.defaults.dup
-        @config_extras = Scholar.extra_defaults.dup
+
+        puts @config
         
         optparse(arguments)
 
