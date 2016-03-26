@@ -9,7 +9,8 @@ module Jekyll
         super
 
         @config = Scholar.defaults.dup
-
+        @config_extras = Scholar.extra_defaults.dup
+        
         optparse(arguments)
       end
 
