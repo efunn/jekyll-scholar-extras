@@ -62,6 +62,7 @@ module Jekyll
     def extra_parse_fields
       return @config_extras['parse_extra_fields']
     end
+
   end 
 
 end 
