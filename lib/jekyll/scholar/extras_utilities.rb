@@ -58,7 +58,10 @@ module Jekyll
 
       File.join(base, url)
     end
-    
+
+    def extra_parse_fields
+      return @config_extras['parse_extra_fields']
+    end
   end 
 
 end 

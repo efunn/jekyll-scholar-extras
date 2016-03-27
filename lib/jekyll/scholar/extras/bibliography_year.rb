@@ -12,6 +12,8 @@ module Jekyll
         @config_extras = ScholarExtras.extra_defaults.dup        
 
         puts @config_extras
+
+        puts @config_extras['parse_extra_fields']
         
         optparse(arguments)
 
@@ -89,9 +91,11 @@ module Jekyll
                 reference = render_index(entry, bibliography_tag(entry, nil))
 
 #                split_reference reference
-                
-                if entry.field?(:award)
+
+                if entry.field?(extra_parse_fields['award'])
                   # TODO: Awkward -- Find position to insert it. Before the last </div>
+                  puts "FOUND AWARD"
+                  puts entry.award
                   ts = content_tag "div class=\"csl-award\"", entry.award.to_s
                   reference_position = reference.rindex('</div>')
                   if reference_position.nil? 
@@ -123,7 +127,7 @@ module Jekyll
                   if not repository_link_for(entry).nil?
                     link = repository_slides_link_for(entry)
 #                    puts link.to_s
-                    if link.to_s.include?("_slides")
+                    if link.to_s.include?(@config_extras['slides'])
                       pdflink = "<div class=\"pure-button csl-slides\"><a href=\"" + repository_slides_link_for(entry) + "\">SLIDES</a></div>"
                       reference.insert(reference.rindex('</div>'), pdflink.to_s )                      
                     end

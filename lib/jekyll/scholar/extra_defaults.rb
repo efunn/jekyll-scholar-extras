@@ -1,7 +1,10 @@
 module Jekyll
   module ScholarExtras
     @extra_defaults = {
-      'slides'                 => '_slides'
+      'slides'                 => '_slides',
+      'parse_extra_fields' => {
+        'award' => "award",
+        'errata' => "_errata"}
     }.freeze
 
     class << self
