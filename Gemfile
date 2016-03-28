@@ -11,16 +11,16 @@ group :development do
 
   gem 'rake'
   gem 'redgreen', '~> 1.2'
-  gem 'shoulda', '~> 3.5'
-  gem 'cucumber', '1.3.11'
+#  gem 'shoulda', '~> 3.5'
+#  gem 'cucumber', '1.3.11'
   gem 'redcarpet'
-  gem 'launchy', '~> 2.3'
+#  gem 'launchy', '~> 2.3'
 
   gem 'unicode_utils'
 
-  gem 'simplecov', '~>0.9', :require => false
-  gem 'rubinius-coverage', :platform => :rbx
-  gem 'coveralls', :require => false
+#  gem 'simplecov', '~>0.9', :require => false
+#  gem 'rubinius-coverage', :platform => :rbx
+#  gem 'coveralls', :require => false
 end
 
 group :debug do

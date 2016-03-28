@@ -1,56 +1,57 @@
 module Jekyll
   module ScholarExtras
 
-      def render_index(item, ref)
-        si = '[' + @prefix_defaults[item.type].to_s + @type_counts[item.type].to_s + ']'
-        @type_counts[item.type] = @type_counts[item.type].to_i - 1
-        
-        idx_html = content_tag "div class=\"csl-index\"", si
-        return idx_html + ref
-      end
+    # Return the extra configurations for parsing.
+    def extra_parse_fields
+      return @config_extras['parse_extra_fields']
+    end
 
-      def render_ref_img(item)
-        css_points = Hash[{
-                         :article => "csl-point-journal-icon",
-                         :inproceedings => "csl-point-conference-icon",
-                         :incollection=> "csl-point-bookchapter-icon",
-                         :techreport => "csl-point-techreport-icon",
-                         :book => "csl-point-book-icon"
-                       }]
+    # Generate the index using csl-index.
+    def render_index(item, ref)
+      si = '[' + @prefix_defaults[item.type].to_s + @type_counts[item.type].to_s + ']'
+      @type_counts[item.type] = @type_counts[item.type].to_i - 1
+      
+      idx_html = content_tag "div class=\"csl-index\"", si
+      return idx_html + ref
+    end
 
-        s = css_points[item.type]
-        return s
-      end
+    # Generate the publication type images.
+    def render_ref_img(item)
+      css_points = Hash[{
+                          :article => "csl-point-journal-icon",
+                          :inproceedings => "csl-point-conference-icon",
+                          :incollection=> "csl-point-bookchapter-icon",
+                          :techreport => "csl-point-techreport-icon",
+                          :book => "csl-point-book-icon"
+                        }]
 
-      def initialize_prefix_defaults() 
-        @prefix_defaults = Hash[{
-                                  :article => "J",
-                                  :inproceedings => "C",
-                                  :incollection=> "BC",
-                                  :techreport => "TR",
-                                  :book => "B"
-                                }]
-      end
+      s = css_points[item.type]
+      return s
+    end
 
+    # Look at the defaults for prefixes.
+    # TODO: Should move this to defaults.
+    def initialize_prefix_defaults() 
+      @prefix_defaults = Hash[{
+                                :article => "J",
+                                :inproceedings => "C",
+                                :incollection=> "BC",
+                                :techreport => "TR",
+                                :book => "B"
+                              }]
+    end
+
+    # Generate a link if an ACM PDF link exists.
     def render_acmpdf_link(entry)
       pdflink =""
       if entry.field?(:acmpdflink)
         pdflink = "<div class=\"pure-button csl-pdf\"><a href=\"" + entry.acmpdflink.to_s + "\">PDF</a></div>"
       end
+      
       return pdflink
     end
 
-    def split_reference(reference)
-      puts "## " + reference
-      puts "\n"
-      if !reference.nil? 
-        xml = Nokogiri::XML(reference.to_s)
-        puts "=========="
-        puts xml.css("div.csl-author")
-        puts "=========="
-      end
-    end
-
+    # Generate a SLIDES link. 
     def repository_slides_link_for(entry, base = base_url)
       links = repository[entry.key + "_slides"]
       url = links['pdf'] || links['pptx']
@@ -59,8 +60,18 @@ module Jekyll
       File.join(base, url)
     end
 
-    def extra_parse_fields
-      return @config_extras['parse_extra_fields']
+    def split_reference(reference)
+      puts "## " + reference.to_s
+      puts "\n"
+      if !reference.nil? 
+        xml = Nokogiri::XML(reference.to_s)
+        puts "=========="
+        puts xml.css("div.csl-index")
+        puts xml.css("span")
+        puts xml.css("span.div.csl-block.csl-content")
+        puts xml.css("span.div.csl-block")                        
+        puts "=========="
+      end
     end
 
   end 

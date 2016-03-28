@@ -90,8 +90,6 @@ module Jekyll
               if entry.type == o then 
                 reference = render_index(entry, bibliography_tag(entry, nil))
 
-#                split_reference reference
-
                 if entry.field?(extra_parse_fields['award'])
                   # TODO: Awkward -- Find position to insert it. Before the last </div>
                   puts "FOUND AWARD"
@@ -138,8 +136,12 @@ module Jekyll
                 # Content tag is dependent on type of article.
                 content_tag "li class=\"" + render_ref_img(entry) + "\"", reference
               end
+              split_reference reference                                    
             }.join("\n")
+
           }.join("\n")
+          
+
         }.join("")
         return content_tag config['bibliography_list_tag'], bibliography, :class => config['bibliography_class']
       end
