@@ -110,7 +110,8 @@ module Jekyll
                 #
 
                 # Check if there are ACM PDF links
-                reference.insert(reference.rindex('</div>'),render_acmpdf_link(entry))
+                position = reference.rindex('</div>')
+                reference.insert(position.to_i,render_acmpdf_link(entry))
 
                 # Render links if repository specified but not acmpdflink
                 if repository? && !entry.field?(:acmpdflink) 

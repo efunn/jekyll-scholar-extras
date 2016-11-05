@@ -5,7 +5,10 @@ layouts_dir: ./_layouts
 
 lsi:      false
 safe:     false
-highlighter: true
+highlighter: rouge
+
+gems:
+    - jekyll-sitemap
 
 markdown: redcarpet
 redcarpet:
