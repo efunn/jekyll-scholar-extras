@@ -1,2 +1,3 @@
-before_script:
+init:
+    script:
         - ruby -v
