@@ -1,6 +1,7 @@
 source:      .
 destination: ./_site
 plugin_dir:  ./_plugins
+layouts_dir: ./_layouts
 
 lsi:      false
 safe:     false
@@ -20,7 +21,7 @@ url:
 
 # jekyll-scholar configurations
 scholar:
-  style: publications/customized-jse.csl
+  style: ./publications/customized-jse.csl
   locale: en
   sort_by: year
   order: descending
@@ -34,5 +35,4 @@ scholar:
   bibliography_list_tag: "ul"
 
 # jekyll-scholar-extras configurations
-scholar-extras:
 # TODO Options need to be reworked through

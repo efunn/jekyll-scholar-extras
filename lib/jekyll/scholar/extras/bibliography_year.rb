@@ -136,7 +136,7 @@ module Jekyll
                 # Content tag is dependent on type of article.
                 content_tag "li class=\"" + render_ref_img(entry) + "\"", reference
               end
-              split_reference reference                                    
+#              split_reference reference                                    
             }.join("\n")
 
           }.join("\n")

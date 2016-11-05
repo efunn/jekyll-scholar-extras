@@ -62,15 +62,15 @@ module Jekyll
 
     def split_reference(reference)
       puts "## " + reference.to_s
-      puts "\n"
+#      puts "\n"
       if !reference.nil? 
-        xml = Nokogiri::XML(reference.to_s)
-        puts "=========="
-        puts xml.css("div.csl-index")
-        puts xml.css("span")
-        puts xml.css("span.div.csl-block.csl-content")
-        puts xml.css("span.div.csl-block")                        
-        puts "=========="
+        xml = Nokogiri::HTML(reference.to_s)
+        puts "====B======"
+ #       puts xml.css("div.csl-index")
+        xml.css("div.csl-block.csl-title").each do |node|
+          puts "==> " + node.text
+        end
+        puts "====E====="
       end
     end
 
