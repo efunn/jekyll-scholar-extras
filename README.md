@@ -9,6 +9,12 @@ Installation
 ------------
 
 You must compile ```jekyll-scholar-extras``` from source.  If someone is interested in publishing to a gem server, then I would be happy to help enable this.
+
+```bash
+$ gem build jekyll-scholar-extras.gemspec; 
+$ gem install jekyll-scholar-extras-<version-number>.gem  
+```
+
 Usage
 -----
 To enable ```jekyll-scholar-extras```, add a file in your plugin directory (e.g., to `_plugins/jekyll-scholar-extras.rb`) with the following:
