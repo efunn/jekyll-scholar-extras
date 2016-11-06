@@ -15,6 +15,18 @@ $ gem build jekyll-scholar-extras.gemspec;
 $ gem install jekyll-scholar-extras-<version-number>.gem  
 ```
 
+Vagrant Method
+-------------
+
+It may be simpler to just use a vagrant setup to get jekyll-scholar-extras working.  Make sure the pre-requisites for vagrant are already installed.  Once you ssh into the vagrant box, you should have the jekyll-template generated.
+
+```bash
+$ cd jekyll-scholar-extras/vagrant
+$ vagrant up
+$ vagrant provision
+$ vagrant ssh
+```
+
 Usage
 -----
 To enable ```jekyll-scholar-extras```, add a file in your plugin directory (e.g., to `_plugins/jekyll-scholar-extras.rb`) with the following:
