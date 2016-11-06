@@ -8,7 +8,6 @@ safe:     false
 highlighter: rouge
 
 gems:
-    - jekyll-sitemap
 
 markdown: redcarpet
 redcarpet:
