@@ -1,2 +1,2 @@
 test:
-        script: ruby -v 
+        script: ruby -v ; uname -a 
