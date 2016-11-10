@@ -3,8 +3,6 @@ ruby-version:
         script: echo $HOME; 
 
 stages:
-    - ruby-version
-    - setup-gems
     - setup-extras
     - make-extras
 
