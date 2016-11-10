@@ -14,10 +14,12 @@ setup-gems:
                 - gem install jekyll 
                 - gem install jekyll-scholar 
                 - gem install bundler
+                - gem list
 
 setup-extras:
         stage: setup-extras
         script: 
+                - gem list
                 - cd ~; 
                 - git clone https://git.uwaterloo.ca/caesr-pub/jekyll-scholar-extras.git; 
                 - cd jekyll-scholar-extras;
