@@ -1,10 +1,13 @@
 ruby-version:
-        script: ruby -v ; uname -a
+        stage: ruby-version
+        script: ruby -v ; echo $HOME; uname -a
 
 stages:
+    - ruby-version
     - setup-gems
     - setup-extras
     - make-extras
+    - test-extras
 
 setup-gems:
         stage: setup-gems
@@ -15,7 +18,9 @@ setup-extras:
         script: git clone https://git.uwaterloo.ca/caesr-pub/jekyll-scholar-extras.git; cd jekyll-scholar-extras;
 
 make-extras:
-        stage: ake-extras
+        stage: make-extras
         script: gem build jekyll-scholar-extras.gemspec ; gem install jekyll-scholar-extras-0.1.3.gem 
         
-
+test-extras:
+        stage: test-extras
+        script: cd ~; cp -r jekyll-scholar-extras/samples/jekyll-template $HOME; cd jekyll-template; jekyll build --trace
