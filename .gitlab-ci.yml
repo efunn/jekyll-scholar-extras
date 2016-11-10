@@ -2,13 +2,13 @@ stages:
     - setup-extras
     - make-extras
 
-setup-gems:
-        stage: setup-gems
-        script: 
-                - gem install jekyll 
-                - gem install jekyll-scholar 
-                - gem install bundler
-                - gem list
+#setup-gems:
+#        stage: setup-gems
+#        script: 
+#                - gem install jekyll 
+#                - gem install jekyll-scholar 
+#                - gem install bundler
+#                - gem list
 
 setup-extras:
         stage: setup-extras
