@@ -2,4 +2,4 @@ ruby-version:
         script: ruby -v ; uname -a
 
 setup-gems:
-        script gem install jekyll jekyll-scholar
+        script: gem install jekyll jekyll-scholar
