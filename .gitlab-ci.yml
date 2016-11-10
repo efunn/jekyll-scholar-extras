@@ -1,2 +1,5 @@
-test:
-        script: ruby -v ; uname -a 
+ruby-version:
+        script: ruby -v ; uname -a
+
+setup-gems:
+        script gem install jekyll jekyll-scholar
