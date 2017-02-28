@@ -108,6 +108,13 @@ module Jekyll
             
           end
 
+          # Is there a link for code
+          if entry.field?(:code)
+            code_url = "<div class=\"pure-button csl-slides\"><a href=\"" + entry.code.to_s + "\">CODE</a></div>"
+            puts "Found code: " + entry.code.to_s
+            reference.insert(reference.rindex('</div>'), code_url.to_s )                      
+          end   
+
           content_tag config['bibliography_item_tag'], reference
           content_tag "li class=\"" + render_ref_img(entry) + "\"", reference
         }.join("\n")
