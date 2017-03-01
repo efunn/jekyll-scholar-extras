@@ -60,6 +60,12 @@ module Jekyll
       File.join(base, url)
     end
 
+    # Generate a BibTeX link. 
+    def bibtex_link_for(entry, base = base_url)
+      url=entry.key + ".bib"
+      return base + url 
+    end
+    
     def split_reference(reference)
       puts "## " + reference.to_s
 #      puts "\n"

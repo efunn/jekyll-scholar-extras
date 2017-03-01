@@ -114,6 +114,10 @@ module Jekyll
             reference.insert(reference.rindex('</div>'), code_url.to_s )                      
           end   
 
+                  # Generate the bibtex button
+          tex_bib = "<div class=\"pure-button csl-bibtex\"><a href=\"" + bibtex_link_for(entry).to_s + "\">BIBTEX</a></div>"
+          reference.insert(reference.rindex('</div>'), tex_bib.to_s )
+          
           content_tag config['bibliography_item_tag'], reference
           content_tag "li class=\"" + render_ref_img(entry) + "\"", reference
         }.join("\n")
