@@ -62,8 +62,8 @@ module Jekyll
 
     # Generate a BibTeX link. 
     def bibtex_link_for(entry, base = base_url)
-      url=entry.key + ".bib"
-      return  base_url + "/" + repository_path + "/" + url 
+      url=entry.key.to_s + ".bib"
+      return base_url.to_s + "/" + repository_path.to_s + "/" + url.to_s
     end
     
     def split_reference(reference)
