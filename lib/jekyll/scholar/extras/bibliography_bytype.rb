@@ -110,8 +110,7 @@ module Jekyll
 
           # Is there a link for code
           if entry.field?(:code)
-            code_url = "<div class=\"pure-button csl-slides\"><a href=\"" + entry.code.to_s + "\">CODE</a></div>"
-            puts "Found code: " + entry.code.to_s
+            code_url = "<div class=\"pure-button csl-code\"><a href=\"" + entry.code.to_s + "\">CODE</a></div>"
             reference.insert(reference.rindex('</div>'), code_url.to_s )                      
           end   
 

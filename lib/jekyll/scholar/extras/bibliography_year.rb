@@ -92,8 +92,6 @@ module Jekyll
 
                 if entry.field?(extra_parse_fields['award'])
                   # TODO: Awkward -- Find position to insert it. Before the last </div>
-                  puts "FOUND AWARD"
-                  puts entry.award
                   ts = content_tag "div class=\"csl-award\"", entry.award.to_s
                   reference_position = reference.rindex('</div>')
                   if reference_position.nil? 
@@ -133,12 +131,11 @@ module Jekyll
                   end
                   
 
-          # Is there a link for code
-          if entry.field?(:code)
-            code_url = "<div class=\"pure-button csl-slides\"><a href=\"" + entry.code.to_s + "\">CODE</a></div>"
-            puts "Found code: " + entry.code.to_s
-            reference.insert(reference.rindex('</div>'), code_url.to_s )                      
-          end   
+                  # Is there a link for code
+                  if entry.field?(:code)
+                    code_url = "<div class=\"pure-button csl-code\"><a href=\"" + entry.code.to_s + "\">CODE</a></div>"
+                    reference.insert(reference.rindex('</div>'), code_url.to_s )                      
+                  end   
 
                 end
 
