@@ -142,6 +142,7 @@ module Jekyll
 
                 # Generate the bibtex button for all pubs
                 tex_bib = "<div class=\"pure-button csl-bibtex\"><a href=\"" + bibtex_link_for(entry).to_s + "\">BIBTEX</a></div>"
+                puts reference.rindex('</div>')
                 reference.insert(reference.rindex('</div>'), tex_bib.to_s )
                 
                 # Content tag is dependent on type of article.
