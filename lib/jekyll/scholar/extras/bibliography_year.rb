@@ -29,7 +29,6 @@ module Jekyll
 
         @type_counts.keys.each { |t|
           bib = bibliography.query('@*') { |b|
-            puts b
             (b.public == 'yes' && b.type == t)
           }
           @type_counts[t] = bib.size
