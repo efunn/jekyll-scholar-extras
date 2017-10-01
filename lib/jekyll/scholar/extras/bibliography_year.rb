@@ -20,27 +20,31 @@ module Jekyll
       end
 
       def initialize_type_counts()
-        @type_counts = Hash[{ :article => 0,
-                              :inproceedings => 0,
-                              :incollection=> 0,
-                              :techreport => 0,
-                              :book => 0
+        @type_counts = Hash[{ :neurofeedback => 0,
+                              :clinical => 0,
+                              :bci => 0,
+                              :review => 0,
+                              :methods => 0
                             }]
 
         @type_counts.keys.each { |t|
+          # bib = bibliography.query('@*') { |b|
+          #   (b.public == 'yes' && b.type == t)
+          # }
           bib = bibliography.query('@*') { |b|
-            (b.public == 'yes' && b.type == t)
+            # (b.type == t)
+            (b.application == t)
           }
           @type_counts[t] = bib.size
         }
       end
 
       def initialize_type_order()
-        @type_order = Hash[{ :article => 0,
-                             :book => 0,
-                             :incollection=> 0,
-                             :inproceedings => 0,
-                             :techreport => 0
+        @type_order = Hash[{ :neurofeedback => 0,
+                             :clinical => 0,
+                             :bci => 0,
+                             :review => 0,
+                             :methods => 0
                            }]
       end
 
@@ -58,8 +62,11 @@ module Jekyll
 
 
       def entries_year(year)
+        # b = bibliography.query('@*') { 
+        #   |a| (a.year == year && a.public == 'yes')
+        # }
         b = bibliography.query('@*') { 
-          |a| (a.year == year && a.public == 'yes')
+          |a| (a.year == year)
         }
       end
 
@@ -85,74 +92,15 @@ module Jekyll
         @arr_unique.each { |y|
           bibliography << render_year(y)
           @type_order.keys.each { |o|
-            items = entries_year(y).select { |e| e.type == o }
+            # items = entries_year(y).select { |e| e.type == o }
+            items = entries_year(y).select { |e| e.application == o }
             bibliography << items.each_with_index.map { |entry, index|
-              if entry.type == o then 
-                reference = render_index(entry, bibliography_tag(entry, nil))
-
-                if entry.field?(extra_parse_fields['award'])
-                  # TODO: Awkward -- Find position to insert it. Before the last </div>
-                  ts = content_tag "div class=\"csl-award\"", entry.award.to_s
-                  reference_position = reference.rindex('</div>')
-                  if reference_position.nil? 
-                  else 
-                    reference.insert( reference.rindex('</div>'), ts.to_s )
-                  end
-                end
-
-                # There are multiple ways to have PDFs associated.
-                # Priority is suggested as below.
-                # 1. ACM links to PDF through authorizer
-                # 2. Repository links
-                # 3. Just web links to somewhere else.
-                #
-
-                # Check if there are ACM PDF links
-                position = reference.rindex('</div>')
-                reference.insert(position.to_i,render_acmpdf_link(entry))
-
-                # Render links if repository specified but not acmpdflink
-                if repository? && !entry.field?(:acmpdflink) 
-                  if not repository_link_for(entry).nil?
-#                    puts "link is not null"
-#                    puts repository_link_for(entry)
-                    pdflink = "<div class=\"pure-button csl-pdf\"><a href=\"" + repository_link_for(entry) + "\">PDF</a></div>"
-                    reference.insert(reference.rindex('</div>'), pdflink.to_s )
-                  end
-
-                  # Check for SLIDES PDF.
-                  if not repository_link_for(entry).nil?
-                    link = repository_slides_link_for(entry)
-#                    puts link.to_s
-                    if link.to_s.include?(@config_extras['slides'])
-                      pdflink = "<div class=\"pure-button csl-slides\"><a href=\"" + repository_slides_link_for(entry) + "\">SLIDES</a></div>"
-                      reference.insert(reference.rindex('</div>'), pdflink.to_s )                      
-                    end
-                  end
-                  
-
-                  # Is there a link for code
-                  if entry.field?(:code)
-                    code_url = "<div class=\"pure-button csl-code\"><a href=\"" + entry.code.to_s + "\">CODE</a></div>"
-                    reference.insert(reference.rindex('</div>').to_i, code_url.to_s )                      
-                  end   
-
-                  
-                end
-
-                # Generate the bibtex button for all pubs
-                tex_bib = "<div class=\"pure-button csl-bibtex\"><a href=\"" + bibtex_link_for(entry).to_s + "\">BIBTEX</a></div>"
-                reference.insert(reference.rindex('</div>').to_i, tex_bib.to_s )
-                
-                # Content tag is dependent on type of article.
+              if entry.application == o then 
+                reference = bibliography_tag(entry, nil)
                 content_tag "li class=\"" + render_ref_img(entry) + "\"", reference
               end
-#              split_reference reference                                    
             }.join("\n")
-
           }.join("\n")
-          
-
         }.join("")
         return content_tag config['bibliography_list_tag'], bibliography, :class => config['bibliography_class']
       end

@@ -45,7 +45,8 @@ module Jekyll
         set_context_to context
 
         # Only select items that are public.
-        items = entries.select { |e| e.public == 'yes' }
+        # items = entries.select { |e| e.public == 'yes' }
+        items = entries
 
         initialize_prefix_defaults()
         initialize_type_labels()
@@ -108,16 +109,6 @@ module Jekyll
             
           end
 
-          # Is there a link for code
-          if entry.field?(:code)
-            code_url = "<div class=\"pure-button csl-code\"><a href=\"" + entry.code.to_s + "\">CODE</a></div>"
-            reference.insert(reference.rindex('</div>').to_i, code_url.to_s )                      
-          end   
-
-                  # Generate the bibtex button
-          tex_bib = "<div class=\"pure-button csl-bibtex\"><a href=\"" + bibtex_link_for(entry).to_s + "\">BIBTEX</a></div>"
-          reference.insert(reference.rindex('</div>').to_i, tex_bib.to_s )
-          
           content_tag config['bibliography_item_tag'], reference
           content_tag "li class=\"" + render_ref_img(entry) + "\"", reference
         }.join("\n")

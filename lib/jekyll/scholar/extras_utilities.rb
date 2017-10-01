@@ -18,14 +18,15 @@ module Jekyll
     # Generate the publication type images.
     def render_ref_img(item)
       css_points = Hash[{
-                          :article => "csl-point-journal-icon",
-                          :inproceedings => "csl-point-conference-icon",
-                          :incollection=> "csl-point-bookchapter-icon",
-                          :techreport => "csl-point-techreport-icon",
-                          :book => "csl-point-book-icon"
+                          "neurofeedback" => "csl-point-neurofeedback-icon",
+                          "clinical" => "csl-point-clinical-icon",
+                          "bci" => "csl-point-bci-icon",
+                          "review" => "csl-point-review-icon",
+                          "methods" => "csl-point-methods-icon"
                         }]
 
-      s = css_points[item.type]
+      # s = css_points[item.type]
+      s = css_points[item.application]
       return s
     end
 
@@ -60,12 +61,6 @@ module Jekyll
       File.join(base, url)
     end
 
-    # Generate a BibTeX link. 
-    def bibtex_link_for(entry, base = base_url)
-      url=entry.key.to_s + ".bib"
-      return base_url.to_s + "/" + repository_path.to_s + "/" + url.to_s
-    end
-    
     def split_reference(reference)
       puts "## " + reference.to_s
 #      puts "\n"
