@@ -1,19 +1,7 @@
 module Jekyll
-  module ScholarExtras
+  class ScholarExtras
 
-    # Return the extra configurations for parsing.
-    def extra_parse_fields
-      return @config_extras['parse_extra_fields']
-    end
-
-    # Generate the index using csl-index.
-    def render_index(item, ref)
-      si = '[' + @prefix_defaults[item.type].to_s + @type_counts[item.type].to_s + ']'
-      @type_counts[item.type] = @type_counts[item.type].to_i - 1
-      
-      idx_html = content_tag "div class=\"csl-index\"", si
-      return idx_html + ref
-    end
+    module Utilities
 
     # Generate the publication type images.
     def render_ref_img(item)
@@ -77,4 +65,5 @@ module Jekyll
 
   end 
 
+end
 end 

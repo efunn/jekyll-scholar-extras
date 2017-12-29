@@ -3,7 +3,7 @@ module Jekyll
 
     class BibliographyTagByType < Liquid::Tag
       include Scholar::Utilities
-      include ScholarExtras
+      include ScholarExtras::Utilities
 
       def initialize(tag_name, arguments, tokens)
         super
