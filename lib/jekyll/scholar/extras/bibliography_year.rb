@@ -9,11 +9,6 @@ module Jekyll
         super
 
         @config = Scholar.defaults.dup
-        @config_extras = ScholarExtras.extra_defaults.dup        
-
-        puts @config_extras
-
-        puts @config_extras['parse_extra_fields']
         
         optparse(arguments)
 
